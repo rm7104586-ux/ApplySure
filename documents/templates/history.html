@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparison History | ApplySure</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background: #F6F0E5;
+            color: #25352E;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+        }
+        h1 { color: #183D32; }
+        a { color: #C66A45; text-decoration: none; }
+        .table-wrap { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            overflow-wrap: anywhere;
+        }
+        th { background: #183D32; color: white; }
+        tr:nth-child(even) { background: #F6F0E5; }
+        .empty { padding: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/">← Back to Home</a>
+        <h1>Comparison History</h1>
+        <p>Your latest document comparisons.</p>
+
+        {% if history %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Document 1</th>
+                        <th>Document 2</th>
+                        <th>Doc 1 Differences</th>
+                        <th>Doc 2 Differences</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in history %}
+                    <tr>
+                        <td>{{ item.document1_name }}</td>
+                        <td>{{ item.document2_name }}</td>
+                        <td>{{ item.count_first }}</td>
+                        <td>{{ item.count_second }}</td>
+                        <td>{{ item.created_at|date:"d M Y, h:i A" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="empty">No comparison history yet. Compare two PDFs to see your history here.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

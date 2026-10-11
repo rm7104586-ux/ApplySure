@@ -1,0 +1,4 @@
+Django
+pypdf
+reportlab
+python-dotenv 

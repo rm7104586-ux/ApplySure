@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApplySure | Document Verification System</title>
+
+    <style>
+        :root {
+            --green: #183D32;
+            --green-light: #285747;
+            --cream: #F6F0E5;
+            --terracotta: #C66A45;
+            --white: #FFFFFF;
+            --text: #25352E;
+            --muted: #6E786F;
+            --border: #E4DED2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1120px, 90%);
+            margin: auto;
+        }
+
+        header {
+            background: var(--cream);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .navbar {
+            min-height: 78px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            color: var(--green);
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: var(--terracotta);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-label {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .history-link {
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid var(--green);
+            padding: 9px 13px;
+            border-radius: 4px;
+        }
+
+        .history-link:hover {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .hero {
+            padding: 85px 0 75px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 0.9fr;
+            align-items: center;
+            gap: 65px;
+        }
+
+        .eyebrow {
+            color: var(--terracotta);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            color: var(--green);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(45px, 6vw, 76px);
+            font-weight: 500;
+            letter-spacing: -2px;
+            line-height: 1.08;
+            margin-bottom: 25px;
+        }
+
+        h1 span {
+            color: var(--terracotta);
+            font-style: italic;
+        }
+
+        .hero-description {
+            color: var(--muted);
+            max-width: 510px;
+            font-size: 16px;
+            margin-bottom: 27px;
+        }
+
+        .tagline {
+            color: var(--green);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .compare-btn {
+            display: inline-block;
+            background: var(--green);
+            color: var(--white);
+            padding: 15px 25px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .compare-btn:hover {
+            background: var(--green-light);
+            transform: translateY(-2px);
+        }
+
+        .history-btn {
+            display: inline-block;
+            margin: 10px 0 0 8px;
+            padding: 14px 20px;
+            border: 1px solid var(--green);
+            border-radius: 4px;
+            color: var(--green);
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+
+        .history-btn:hover {
+            background: var(--white);
+        }
+
+        .workspace {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 27px;
+            box-shadow: 0 18px 45px rgba(24, 61, 50, 0.07);
+        }
+
+        .workspace-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .workspace-heading h2 {
+            color: var(--green);
+            font-size: 17px;
+        }
+
+        .preview-label {
+            color: var(--terracotta);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .document-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 18px;
+            margin-bottom: 13px;
+            background: #FFFEFC;
+        }
+
+        .pdf-icon {
+            width: 48px;
+            height: 55px;
+            flex-shrink: 0;
+            background: var(--cream);
+            color: var(--terracotta);
+            border: 1px solid #E9D9C9;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .document-info h3 {
+            color: var(--green);
+            font-size: 15px;
+            margin-bottom: 3px;
+        }
+
+        .document-info p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .file-number {
+            margin-left: auto;
+            align-self: flex-start;
+            color: var(--muted);
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .workspace-note {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 19px;
+            line-height: 1.7;
+        }
+
+        .features {
+            padding: 75px 0 85px;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-label {
+            color: var(--terracotta);
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            color: var(--green);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(32px, 4vw, 46px);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .section-description {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .feature-card {
+            padding: 27px 23px;
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+        }
+
+        .feature-number {
+            color: var(--terracotta);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .feature-card h3 {
+            color: var(--green);
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .workflow {
+            padding: 80px 0;
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        .workflow-step {
+            border-top: 2px solid var(--terracotta);
+            padding-top: 22px;
+        }
+
+        .workflow-step .number {
+            color: var(--terracotta);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .workflow-step h3 {
+            color: var(--green);
+            font-size: 18px;
+            margin: 12px 0 8px;
+        }
+
+        .workflow-step p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .workflow-action {
+            margin-top: 35px;
+        }
+
+        footer {
+            background: var(--green);
+            color: var(--cream);
+            padding: 27px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .footer-logo span {
+            color: #E4A183;
+        }
+
+        footer p {
+            color: #D8E0D9;
+            font-size: 12px;
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                padding: 55px 0;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .feature-grid,
+            .workflow-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features,
+            .workflow {
+                padding: 55px 0;
+            }
+
+            .nav-label {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                min-height: 68px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .history-link {
+                font-size: 11px;
+                padding: 8px;
+            }
+
+            .nav-right {
+                gap: 8px;
+            }
+
+            .workspace {
+                padding: 18px;
+            }
+
+            .document-card {
+                padding: 13px;
+                gap: 10px;
+            }
+
+            .file-number {
+                font-size: 8px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container navbar">
+            <a href="/" class="logo">Apply<span>Sure.</span></a>
+
+            <div class="nav-right">
+                <div class="nav-label">Document Verification System</div>
+                <a href="{% url 'comparison_history' %}" class="history-link">
+                    View History
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+
+                <div class="hero-content">
+                    <p class="eyebrow">A smarter way to check documents</p>
+
+                    <h1>
+                        Every detail<br>
+                        <span>matters.</span><br>
+                        Check with care.
+                    </h1>
+
+                    <p class="hero-description">
+                        ApplySure helps users compare application-related
+                        documents, identify differences, and review possible
+                        errors before submitting important applications.
+                    </p>
+
+                    <p class="tagline">
+                        Compare information. Review differences. Stay informed.
+                    </p>
+
+                    <a href="{% url 'compare_documents' %}" class="compare-btn">
+                        Compare Documents &rarr;
+                    </a>
+
+                    <a href="{% url 'comparison_history' %}" class="history-btn">
+                        View Comparison History
+                    </a>
+                </div>
+
+                <div class="workspace">
+                    <div class="workspace-heading">
+                        <h2>Document Workspace</h2>
+                        <span class="preview-label">PREVIEW</span>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="pdf-icon">PDF</div>
+                        <div class="document-info">
+                            <h3>Application Document</h3>
+                            <p>First document · PDF</p>
+                        </div>
+                        <span class="file-number">FILE 01</span>
+                    </div>
+
+                    <div class="document-card">
+                        <div class="pdf-icon">PDF</div>
+                        <div class="document-info">
+                            <h3>Supporting Document</h3>
+                            <p>Second document · PDF</p>
+                        </div>
+                        <span class="file-number">FILE 02</span>
+                    </div>
+
+                    <p class="workspace-note">
+                        Upload and compare documents to review differences.
+                        Results should always be checked before taking action.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <p class="section-label">WHAT APPLYSURE DOES</p>
+
+                <h2 class="section-title">
+                    Designed for careful verification.
+                </h2>
+
+                <p class="section-description">
+                    Keep important document information easier to review.
+                </p>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <p class="feature-number">01 / EXTRACT</p>
+                        <h3>Read Document Data</h3>
+                        <p>
+                            Extract available text from supported documents
+                            so that important information can be reviewed.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <p class="feature-number">02 / COMPARE</p>
+                        <h3>Identify Differences</h3>
+                        <p>
+                            Compare extracted text and identify information
+                            that appears in one document but not the other.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <p class="feature-number">03 / REVIEW</p>
+                        <h3>Understand Results</h3>
+                        <p>
+                            Review the differences and check the source
+                            documents before deciding whether changes are needed.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="workflow">
+            <div class="container">
+                <p class="section-label">THE WORKFLOW</p>
+
+                <h2 class="section-title">
+                    Three steps to a clearer review.
+                </h2>
+
+                <div class="workflow-grid">
+                    <article class="workflow-step">
+                        <span class="number">01.</span>
+                        <h3>Provide documents</h3>
+                        <p>Select the two PDF documents you want to compare.</p>
+                    </article>
+
+                    <article class="workflow-step">
+                        <span class="number">02.</span>
+                        <h3>Compare information</h3>
+                        <p>Examine extracted text and identify differences.</p>
+                    </article>
+
+                    <article class="workflow-step">
+                        <span class="number">03.</span>
+                        <h3>Review the findings</h3>
+                        <p>Check the source information and review the results.</p>
+                    </article>
+                </div>
+
+                <div class="workflow-action">
+                    <a href="{% url 'compare_documents' %}" class="compare-btn">
+                        Start Comparing &rarr;
+                    </a>
+
+                    <a href="{% url 'comparison_history' %}" class="history-btn">
+                        Open History
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">Apply<span>Sure.</span></div>
+            <p>Smart Document Comparison System · Academic Project · 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

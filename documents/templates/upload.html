@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Documents | ApplySure</title>
+
+    <style>
+        :root {
+            --green: #183D32;
+            --green-light: #285747;
+            --cream: #F6F0E5;
+            --terracotta: #C66A45;
+            --white: #FFFFFF;
+            --text: #25352E;
+            --muted: #6E786F;
+            --border: #E4DED2;
+            --red: #A43F35;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1050px, 92%);
+            margin: auto;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .logo span {
+            color: var(--terracotta);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        main {
+            padding: 45px 0 75px;
+        }
+
+        .heading {
+            margin-bottom: 25px;
+        }
+
+        .eyebrow {
+            color: var(--terracotta);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        h1, h2 {
+            color: var(--green);
+        }
+
+        h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            padding: 26px;
+            margin-bottom: 25px;
+        }
+
+        .panel h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .panel-description {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .file-field {
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 17px;
+            background: #FFFEFC;
+        }
+
+        label {
+            display: block;
+            color: var(--green);
+            font-weight: 700;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .help {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 9px;
+        }
+
+        button, .button {
+            display: inline-block;
+            border: none;
+            border-radius: 4px;
+            background: var(--green);
+            color: var(--white);
+            padding: 13px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover, .button:hover {
+            background: var(--green-light);
+        }
+
+        .submit-row {
+            margin-top: 22px;
+        }
+
+        .error {
+            background: #FFF0E8;
+            border-left: 4px solid var(--red);
+            padding: 14px;
+            margin-bottom: 22px;
+            color: var(--red);
+            font-size: 13px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .summary-card {
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 18px;
+        }
+
+        .summary-card p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .summary-card strong {
+            display: block;
+            color: var(--green);
+            font-size: 27px;
+            margin-top: 5px;
+        }
+
+        .document-names {
+            font-size: 13px;
+            color: var(--muted);
+            overflow-wrap: anywhere;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 500px;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            text-align: left;
+            padding: 12px;
+            vertical-align: top;
+            overflow-wrap: anywhere;
+        }
+
+        th {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        td {
+            background: #FFFEFC;
+        }
+
+        .status {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .status-label {
+            display: inline-block;
+            background: #FFF0E8;
+            color: var(--red);
+            border-radius: 4px;
+            padding: 3px 7px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-label.formatting {
+            background: #FFF4D8;
+            color: #805B12;
+        }
+
+        .status-label.spelling {
+            background: #FBE8DD;
+            color: #91451E;
+        }
+
+        .status-label.missing {
+            background: #FCE8E6;
+            color: #922D27;
+        }
+
+        .reason {
+            min-width: 180px;
+        }
+
+        .recommendation {
+            margin-top: 6px;
+            color: var(--green);
+            font-size: 12px;
+        }
+
+        .success-note {
+            background: #EDF5EF;
+            border-left: 4px solid var(--green);
+            padding: 13px;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+
+        .difference-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .difference-box {
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 17px;
+            min-width: 0;
+        }
+
+        .difference-box h3 {
+            color: var(--green);
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .difference-box ul {
+            padding-left: 20px;
+        }
+
+        .difference-box li {
+            font-size: 12px;
+            margin-bottom: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .note {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 16px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .secondary {
+            background: transparent;
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .secondary:hover {
+            background: var(--cream);
+            color: var(--green);
+        }
+
+        footer {
+            background: var(--green);
+            color: var(--cream);
+            padding: 22px 0;
+            font-size: 12px;
+        }
+
+        @media (max-width: 650px) {
+            .upload-grid,
+            .difference-columns,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+
+            .navbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="container navbar">
+        <a href="{% url 'home' %}" class="logo">
+            Apply<span>Sure.</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'comparison_history' %}">View History</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="heading">
+        <p class="eyebrow">DOCUMENT VERIFICATION WORKSPACE</p>
+        <h1>Compare your documents.</h1>
+        <p class="subtitle">
+            Compare extracted PDF text, classify field differences,
+            and review reasons and recommended actions.
+        </p>
+    </section>
+
+    {% if error %}
+        <div class="error">
+            <strong>Unable to compare documents:</strong>
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <section class="panel">
+        <h2>Upload documents</h2>
+        <p class="panel-description">
+            Select two text-based PDF files. Maximum size: 10 MB per file.
+        </p>
+
+        <form method="post"
+              enctype="multipart/form-data"
+              action="{% url 'compare_documents' %}">
+            {% csrf_token %}
+
+            <div class="upload-grid">
+                <div class="file-field">
+                    <label for="document1">Document 1</label>
+                    <input type="file"
+                           id="document1"
+                           name="document1"
+                           accept=".pdf,application/pdf"
+                           required>
+                    <p class="help">
+                        Example: application form or original certificate.
+                    </p>
+                </div>
+
+                <div class="file-field">
+                    <label for="document2">Document 2</label>
+                    <input type="file"
+                           id="document2"
+                           name="document2"
+                           accept=".pdf,application/pdf"
+                           required>
+                    <p class="help">
+                        Example: supporting certificate or revised form.
+                    </p>
+                </div>
+            </div>
+
+            <div class="submit-row">
+                <button type="submit">Compare Documents &rarr;</button>
+            </div>
+        </form>
+    </section>
+
+    {% if result %}
+        <section class="panel">
+            <p class="eyebrow">COMPARISON RESULTS</p>
+            <h2>Comparison summary</h2>
+
+            <p class="document-names">
+                <strong>Document 1:</strong> {{ result.document1_name }}<br>
+                <strong>Document 2:</strong> {{ result.document2_name }}
+            </p>
+
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <p>Lines only in Document 1</p>
+                    <strong>{{ result.count_first }}</strong>
+                </div>
+
+                <div class="summary-card">
+                    <p>Lines only in Document 2</p>
+                    <strong>{{ result.count_second }}</strong>
+                </div>
+
+                <div class="summary-card">
+                    <p>Detected field differences</p>
+                    <strong>{{ result.field_mismatch_count }}</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Field extraction results</h2>
+            <p class="panel-description">
+                Fields recognised from the extracted PDF text.
+            </p>
+
+            <div class="difference-columns">
+                <div class="difference-box">
+                    <h3>Document 1</h3>
+
+                    {% if result.fields1 %}
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>Extracted value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field, value in result.fields1.items %}
+                                        <tr>
+                                            <td>{{ field }}</td>
+                                            <td>{{ value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="note">No supported fields detected.</p>
+                    {% endif %}
+                </div>
+
+                <div class="difference-box">
+                    <h3>Document 2</h3>
+
+                    {% if result.fields2 %}
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>Extracted value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for field, value in result.fields2.items %}
+                                        <tr>
+                                            <td>{{ field }}</td>
+                                            <td>{{ value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="note">No supported fields detected.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Smart field difference analysis</h2>
+            <p class="panel-description">
+                Each detected difference includes its classification,
+                explanation, and a suggested next step.
+            </p>
+
+            {% if result.field_mismatches %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Document 1</th>
+                                <th>Document 2</th>
+                                <th>Classification</th>
+                                <th>Reason and recommendation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in result.field_mismatches %}
+                                <tr>
+                                    <td>{{ item.field }}</td>
+                                    <td>{{ item.document1_value }}</td>
+                                    <td>{{ item.document2_value }}</td>
+                                    <td>
+                                        {% if item.status == "Formatting variation" %}
+                                            <span class="status-label formatting">
+                                                {{ item.status }}
+                                            </span>
+                                        {% elif item.status == "Possible spelling mismatch" %}
+                                            <span class="status-label spelling">
+                                                {{ item.status }}
+                                            </span>
+                                        {% elif "Missing" in item.status %}
+                                            <span class="status-label missing">
+                                                {{ item.status }}
+                                            </span>
+                                        {% else %}
+                                            <span class="status-label">
+                                                {{ item.status }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="reason">
+                                        <strong>Reason:</strong>
+                                        {{ item.reason }}
+
+                                        <div class="recommendation">
+                                            <strong>Recommended action:</strong>
+                                            {{ item.recommendation }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="success-note">
+                    No differences were detected in the recognised fields.
+                    This does not guarantee that all document details match.
+                </div>
+            {% endif %}
+
+            <p class="note">
+                These classifications are rule-based suggestions, not proof
+                of fraud or factual correctness. Verify flagged values
+                against the original documents.
+            </p>
+        </section>
+
+        <section class="panel">
+            <h2>Text differences</h2>
+            <p class="panel-description">
+                Lines that appear in one document but not the other.
+            </p>
+
+            <div class="difference-columns">
+                <div class="difference-box">
+                    <h3>Only in Document 1</h3>
+
+                    {% if result.only_in_first %}
+                        <ul>
+                            {% for line in result.only_in_first %}
+                                <li>{{ line }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="note">No unique lines found.</p>
+                    {% endif %}
+                </div>
+
+                <div class="difference-box">
+                    <h3>Only in Document 2</h3>
+
+                    {% if result.only_in_second %}
+                        <ul>
+                            {% for line in result.only_in_second %}
+                                <li>{{ line }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="note">No unique lines found.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="actions">
+                <a class="button" href="{% url 'download_report' %}">
+                    Download PDF Report
+                </a>
+
+                <a class="button secondary"
+                   href="{% url 'comparison_history' %}">
+                    View History
+                </a>
+
+                <a class="button secondary"
+                   href="{% url 'compare_documents' %}">
+                    Compare Again
+                </a>
+            </div>
+        </section>
+    {% endif %}
+</main>
+
+<footer>
+    <div class="container">
+        ApplySure · Document Comparison and Verification
+    </div>
+</footer>
+</body>
+</html>
