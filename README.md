@@ -1,4 +1,8 @@
-# ApplySure – Smart Document Comparison & Verification System
+# ApplySure
+
+🌐 **Live Website:** https://applysure-mfin.onrender.com/
+
+ApplySure is a Django-based web application that compares PDF documents, identifies matching and mismatched information, explains field differences, and generates downloadable PDF reports.# ApplySure – Smart Document Comparison & Verification System
 
 ApplySure is a Django-based web application that compares two PDF documents, identifies field-level differences, explains the possible significance of mismatches, and generates a downloadable PDF report.
 
