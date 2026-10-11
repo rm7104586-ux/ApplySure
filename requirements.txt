@@ -2,3 +2,5 @@ Django
 pypdf
 reportlab
 python-dotenv 
+gunicorn
+whitenoise
